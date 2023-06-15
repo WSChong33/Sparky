@@ -30,7 +30,7 @@ class _LoginState extends State<Login> {
     
     if (response.statusCode == 200) {
       // Login successful
-      Navigator.pushNamed(context, '/home');
+      Navigator.pushNamed(context, '/home', arguments: email);
     } else if (response.statusCode == 401) {
       // Wrong password - notify users with a alert
     } else if (response.statusCode == 201) {

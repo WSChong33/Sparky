@@ -99,6 +99,33 @@ app.post('/signup', async (req, res) => {
   }
 });
 
+app.get('/profile', async (req, res) => {
+  try {
+    const { email } = req.query;
+    
+    const connection = await mysqlPool.getConnection();
+    const [result] = await connection.query('Select * FROM users WHERE email = ?',[email]);
+    connection.release();
+
+    let profileData;
+
+    if (result.length > 0) {
+      profileData = {
+        name: result[0].name,
+        age: result[0].age,
+        location: result[0].location,
+        likes: result[0].likes,
+        dislikes: result[0].dislikes,
+      }
+    }
+    res.json(profileData); // Send the profile data as JSON response
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
+});
+
+
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

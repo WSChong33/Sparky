@@ -13,11 +13,26 @@ class _HomeState extends State<Home> {
   List<String> likes = ["Reading", "Sports"];
   List<String> dislikes = ["Cooking", "Gardening"];
 
+  late String email;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    email = ModalRoute.of(context)?.settings.arguments as String;
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Home"),
+        automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView( // Wrap the Column with SingleChildScrollView
         child: Column(
@@ -53,7 +68,7 @@ class _HomeState extends State<Home> {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/profile');
+                    Navigator.pushNamed(context, '/profile', arguments: email);
                   },
                   style: ButtonStyle(
                     padding: MaterialStateProperty.all<EdgeInsets>(

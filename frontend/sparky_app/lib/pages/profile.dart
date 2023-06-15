@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Profile extends StatefulWidget {
   @override
@@ -6,12 +8,52 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  String username = "John Doe";
-  String name = "Jane Smith";
-  int age = 25;
-  String location = "New York";
-  List<String> likes = ["Reading", "Sports"];
-  List<String> dislikes = ["Cooking", "Gardening"];
+  String name = "";
+  String age = "";
+  String location = "";
+  String likes = "";
+  String dislikes = "";
+
+  late String email;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    email = ModalRoute.of(context)?.settings.arguments as String;
+    fetchDataFromServer();
+  }
+
+  Future<void> fetchDataFromServer() async {
+    try {
+      var headers = {'Content-Type': 'application/json'}; // Set headers
+      final response = await http.get(
+        Uri.parse('http://localhost:3000/profile?email=$email'),
+        headers: headers,
+      );
+
+      if (response.statusCode == 200) {
+        // Parse the response JSON
+        final data = json.decode(response.body);
+
+        setState(() {
+          name = data['name'];
+          age = data['age'];
+          location = data['location'];
+          likes = data['likes'];
+          dislikes = data['dislikes'];
+        });
+      } else {
+        print('Request failed with status: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +113,7 @@ class _ProfileState extends State<Profile> {
                   ),
                   SizedBox(width: 10.0),
                   Text(
-                    likes.join(", "),
+                    likes,
                     style: TextStyle(fontSize: 14),
                   ),
                 ],
@@ -89,7 +131,7 @@ class _ProfileState extends State<Profile> {
                   ),
                   SizedBox(width: 10.0),
                   Text(
-                    dislikes.join(", "),
+                    dislikes,
                     style: TextStyle(fontSize: 14),
                   ),
                 ],
