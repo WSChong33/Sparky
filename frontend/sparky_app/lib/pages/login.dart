@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Login extends StatefulWidget {
   @override
@@ -17,15 +19,24 @@ class _LoginState extends State<Login> {
     super.dispose();
   }
 
-  void submitForm() {
+  void submitForm() async {
     String email = emailController.text;
     String password = passwordController.text;
 
-    if (email == "weishen33@gmail.com" && password == "123") {
+    var url = Uri.parse('http://localhost:3000/login');
+    var headers = {'Content-Type': 'application/json'}; // Set headers
+    var body = json.encode({'email': email, 'password': password}); // Encode body as JSON
+    var response = await http.post(url, headers: headers, body: body);
+    
+    if (response.statusCode == 200) {
+      // Login successful
       Navigator.pushNamed(context, '/home');
+    } else if (response.statusCode == 401) {
+      // Wrong password - notify users with a alert
+    } else if (response.statusCode == 201) {
+      // New user created - link to sign up page to create profile
+      Navigator.pushNamed(context, '/signup');
     }
-
-    // Add your logic for further processing the email and password here
   }
 
   @override
@@ -83,7 +94,7 @@ class _LoginState extends State<Login> {
                   SizedBox(height: 24),
                   ElevatedButton(
                     onPressed: submitForm,
-                    child: Text('Login / Signup'),
+                    child: Text('Login'),
                   ),
                 ],
               ),
