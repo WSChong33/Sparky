@@ -22,7 +22,7 @@ class _MatchesState extends State<Matches> {
             title: Text(matchName),
             trailing: ElevatedButton(
               onPressed: () {
-                // Add your Chat button action here
+                Navigator.pushNamed(context, '/chat');
               },
               child: Text('Chat'),
             ),

@@ -45,8 +45,6 @@ class _SignupState extends State<Signup> {
     var body = json.encode({'email': email, 'password': password, 'name': name, 'age': age.toString(), 'location': location, 'likes': likes, 'dislikes': dislikes}); // Encode body as JSON
     var response = await http.post(url, headers: headers, body: body);
 
-    print(response);
-
     if (response.statusCode == 200) {
       // Signup successful
       Navigator.pushNamed(context, '/home');

@@ -63,7 +63,7 @@ app.post('/login', async (req, res) => {
 
       if (user.password === password) {
         // Login successful, password matches
-        console.log("Successful")
+        console.log("Login Successful")
         res.status(200).send('Login successful');
       } else {
         // Password does not match
@@ -125,6 +125,25 @@ app.get('/profile', async (req, res) => {
   }
 });
 
+app.post('/editProfile', async (req, res) => {
+  try {
+
+    const { email, name, age, location, likes, dislikes } = req.body;
+
+    const connection = await mysqlPool.getConnection();
+    await connection.query(`
+      UPDATE users 
+      SET name = ?, age = ?, location = ?, likes = ?, dislikes = ? 
+      WHERE email = ?`, 
+      [name, age, location, likes, dislikes, email]);
+    connection.release();
+    res.sendStatus(200);
+
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
+});
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

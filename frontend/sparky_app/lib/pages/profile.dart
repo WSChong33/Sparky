@@ -17,11 +17,6 @@ class _ProfileState extends State<Profile> {
   late String email;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     email = ModalRoute.of(context)?.settings.arguments as String;
@@ -64,7 +59,7 @@ class _ProfileState extends State<Profile> {
           IconButton(
             icon: Icon(Icons.edit),
             onPressed: () {
-              // Add your edit button action here
+              Navigator.pushNamed(context, '/editProfile', arguments: email);
             },
           ),
         ],
