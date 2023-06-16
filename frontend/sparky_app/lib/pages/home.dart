@@ -26,7 +26,6 @@ class _HomeState extends State<Home> {
     email = ModalRoute.of(context)?.settings.arguments as String;
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,53 +33,54 @@ class _HomeState extends State<Home> {
         title: Text("Home"),
         automaticallyImplyLeading: false,
       ),
-      body: SingleChildScrollView( // Wrap the Column with SingleChildScrollView
+      body: SingleChildScrollView(
         child: Column(
           children: [
-           Row(
-            children: [
-              SizedBox(width: 20), 
-              Expanded(
-                child: Container(
-                  height: MediaQuery.of(context).size.height * 0.10,
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Hi $username",
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-              ),
-              SizedBox(width: 20),
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/matches');
-                  },
-                  style: ButtonStyle(
-                    padding: MaterialStateProperty.all<EdgeInsets>(
-                      EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            Row(
+              children: [
+                SizedBox(width: 20),
+                Expanded(
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.10,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Hi $username",
+                      style: TextStyle(fontSize: 16),
                     ),
                   ),
-                  child: Text("Matches"),
                 ),
-              ),
-              SizedBox(width: 20), // Add space to the right of the "Profile" button
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/profile', arguments: email);
-                  },
-                  style: ButtonStyle(
-                    padding: MaterialStateProperty.all<EdgeInsets>(
-                      EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                SizedBox(width: 20),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/matches');
+                    },
+                    style: ButtonStyle(
+                      padding: MaterialStateProperty.all<EdgeInsets>(
+                        EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      ),
+                    ),
+                    child: Text("Matches"),
+                  ),
+                ),
+                SizedBox(width: 20),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/profile', arguments: email);
+                    },
+                    child: Material(
+                      shape: CircleBorder(),
+                      child: CircleAvatar(
+                        backgroundImage: AssetImage("assets/user.jpeg"), // Replace with your profile image asset
+                        radius: 16,
+                      ),
                     ),
                   ),
-                  child: Text("Profile"),
                 ),
-              ),
-               SizedBox(width: 20), 
-            ],
-          ),
+                SizedBox(width: 20),
+              ],
+            ),
             Container(
               height: MediaQuery.of(context).size.height * 0.35,
               alignment: Alignment.center,

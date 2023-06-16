@@ -20,10 +20,10 @@ class _ProfileState extends State<Profile> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     email = ModalRoute.of(context)?.settings.arguments as String;
-    fetchDataFromServer();
+    fetchDataFromServer(email: email);
   }
 
-  Future<void> fetchDataFromServer() async {
+  Future<void> fetchDataFromServer({required String email}) async {
     try {
       var headers = {'Content-Type': 'application/json'}; // Set headers
       final response = await http.get(
@@ -58,8 +58,9 @@ class _ProfileState extends State<Profile> {
         actions: [
           IconButton(
             icon: Icon(Icons.edit),
-            onPressed: () {
-              Navigator.pushNamed(context, '/editProfile', arguments: email);
+            onPressed: () async {
+              await Navigator.pushNamed(context, '/editProfile', arguments: email);
+              fetchDataFromServer(email: email);
             },
           ),
         ],
@@ -75,7 +76,7 @@ class _ProfileState extends State<Profile> {
                 children: [
                   CircleAvatar(
                     radius: 120,
-                    backgroundImage: AssetImage("assets/puppy.jpeg"),
+                    backgroundImage: AssetImage("assets/user.jpeg"),
                   ),
                 ],
               ),

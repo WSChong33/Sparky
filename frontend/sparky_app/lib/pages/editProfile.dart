@@ -41,11 +41,11 @@ class _EditProfileState extends State<EditProfile> {
 
     var url = Uri.parse('http://localhost:3000/editProfile');
     var headers = {'Content-Type': 'application/json'};
-    var body = json.encode({'email': email, 'name': name, 'age': age.toString(), 'location': location, 'likes': likes, 'dislikes': dislikes});
+    var body = json.encode({'email': email, 'name': name, 'age': age, 'location': location, 'likes': likes, 'dislikes': dislikes});
     var response = await http.post(url, headers: headers, body: body);
 
     if (response.statusCode == 200) {
-      Navigator.pop(context); // It doesn't refresh to reflect new edit
+      Navigator.pop(context, email); // It doesn't refresh to reflect new edit
       // Navigator.pushNamed(context, '/profile', arguments: email);
     }
   }
