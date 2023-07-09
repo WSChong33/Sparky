@@ -2,6 +2,8 @@ import express from 'express';
 import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import { createServer } from 'http';
+import { Server } from 'socket.io';
 
 dotenv.config();
 
@@ -145,6 +147,23 @@ app.post('/editProfile', async (req, res) => {
   }
 });
 
-app.listen(port, () => {
+const httpServer = createServer(app);
+
+const io = new Server(httpServer);
+
+io.on('connection', (socket) => {
+  console.log('A user connected');
+
+  socket.on('message', (message) => {
+    console.log('Received message:', message);
+    io.emit('message', message);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('A user disconnected');
+  });
+});
+
+httpServer.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

@@ -74,8 +74,18 @@ class _HomeState extends State<Home> {
                       child: CircleAvatar(
                         backgroundImage: AssetImage("assets/user.jpeg"), // Replace with your profile image asset
                         radius: 16,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Colors.transparent, // Customize border color if needed
+                              width: 2.0, // Customize border width if needed
+                            ),
+                          ),
+                        ),
                       ),
                     ),
+                    
                   ),
                 ),
                 SizedBox(width: 20),
